@@ -8,19 +8,21 @@ Natural Language Processing (NLP) has widely been used to tackle speech applicat
 
 The following 18 programming languages are explored in this project are: 'C', 'C++', 'C#', 'Go', 'Java', 'JavaScript', 'Julia', 'MATLAB', 'PHP', 'PowerShell', 'Python' , 'R', 'Ruby', 'SQL', 'Swift', 'Scala', 'UNIX Shell', and 'VBA'.
 
-## About the Dataset
-
 ---
+
+## About the Dataset
 
 The code snippets were webscraped the [scraper.py](./scraper.py) from the Rosetta Code wepage. Rosetta Code is a wiki project created by Mike Mol in 2007 that solves common tasks in a myriad of coding languages. As such, it is a useful resource to obtain code snippets with their labels. The scraper crawls across each task page and writes the name of the language and its corresponding code snippets for that given task to a CSV file (RosettaCodeData.csv).
 
 *Note the scraper writes commas in the code snippet as the string sequence '!@#$%^&&^%$#@!'. This is done because CSV's interpret the commas as newlines, disrupting the 2-column structure within the file. The replaced sequence is complex to avoid mixing it up with any other string sequences that occur naturally in the code snippet. When preprocessing the data for classification, this string sequence is restored to commas using a string replacement.*
 
-## Citations
-
 ---
 
+## Citations
+
 Rosetta Code Web Page: <http://www.rosettacode.org/wiki/Rosetta_Code>
+
+---
 
 ## Workflow
 
@@ -37,6 +39,8 @@ Rosetta Code Web Page: <http://www.rosettacode.org/wiki/Rosetta_Code>
 7. The model is built using Tensorflow/Keras. It isa  7-layer neural network starting with an input layer, then an embedding layer, a spatial dropout layer, a bidirectional long-short-term-memory recurrent layer, a relu activated dense layer, another relu activated dense layer, and finally a softmax activated dense layer for the output. The structure is summarized below:
 
 ![Model Structure](./ModelStructure.PNG)
+
+---
 
 ## Model Prediction
 
