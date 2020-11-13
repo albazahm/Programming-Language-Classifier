@@ -1,0 +1,2 @@
+BEGIN {FIELDWIDTHS="5 4 7";}
+{ printf("The three fields are %s %s %s\n", $1, $2, $3);}

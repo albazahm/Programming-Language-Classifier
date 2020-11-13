@@ -7,14 +7,14 @@ import re
 from multiprocessing import Pool, Manager
 import pickle
 import csv
+import json
 
-LANGUAGES = ['C', 'C++', 'C#', 'Go', 'Java', 'JavaScript', 'Julia', 'MATLAB', 'PHP', 'PowerShell', 'Python' , 'R', 'Ruby', 'SQL', 'Swift', 'Scala', 'UNIX Shell', 'VBA']
 MAIN_URL = "http://www.rosettacode.org"
 TASKS_URL = "http://www.rosettacode.org/wiki/Category:Programming_Tasks"
 
 class RosettaCodeScraper():
     
-    def __init__(self, main_url, tasks_url, languages, output_file='RosettaCodeData.csv'):
+    def __init__(self, main_url, tasks_url, output_file='RosettaCodeData.csv'):
 
         """
         Initialize the RosettaCodeScraper class. Creates a file in which to store the scraped data
@@ -34,10 +34,13 @@ class RosettaCodeScraper():
         
         self.main_url = main_url
         self.tasks_url = tasks_url
-        self.languages = set(languages)
         self.output = dict()
         self.count = 0
         self.output_file = output_file
+        with open('./languages.json') as f:
+            self.languages = dict(json.load(f))
+        self.languages = set(self.languages['languages'])
+        print(f'Registered {len(self.languages)} languages...') 
         
         #create output file with headers
         with open(self.output_file, 'w', newline='', encoding='utf-8') as f:
@@ -144,8 +147,9 @@ if __name__ == '__main__':
 
     print('Initializing Scraper...')
     scraper = RosettaCodeScraper(main_url=MAIN_URL, 
-                                 tasks_url=TASKS_URL, 
-                                 languages=LANGUAGES)
+                                 tasks_url=TASKS_URL,
+                                #  languages=LANGUAGES
+                                 )
     
     print('Obtaining Paths...')
     paths = scraper.get_paths()

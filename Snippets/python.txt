@@ -1,1 +1,7 @@
+import pandas
 import numpy as np
+from sys import stdout
+
+def triangle(n=12):
+    for i in range(i):
+        stdout.write(i, len(i))

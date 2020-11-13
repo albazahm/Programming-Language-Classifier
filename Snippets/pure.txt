@@ -1,0 +1,12 @@
+; survival guide 1_4_100 code order
+; pb4.40b1
+;
+Procedure test1()
+  ; do nothing
+EndProcedure
+;
+Procedure test2()
+  test1()               ; no problem calling test1() as it was defined before test2() called it
+EndProcedure
+;
+test2()

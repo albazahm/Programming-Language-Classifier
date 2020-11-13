@@ -1,0 +1,9 @@
+lowpass = 
+  Compile[{{x, _Real, 1}, dt, RC}, 
+   Module[{a = dt/(RC + dt), yprev = First[x], yi}, 
+    Table[yi = a*x[[i]] + (1 - a)*yprev;
+     yprev = yi;
+     yi, {i, 1, Length[x]}
+     ]
+    ]
+   ];

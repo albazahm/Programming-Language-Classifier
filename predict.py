@@ -10,6 +10,7 @@ from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.preprocessing import text, sequence
 from tensorflow.keras.metrics import AUC
 from tensorflow.keras.utils import to_categorical
+from sklearn.preprocessing import LabelEncoder
 import argparse
 import numpy as np
 import string
@@ -34,8 +35,11 @@ def prepare(directory='./Snippets'):
     snippets: list
         list of preprocessed and padded sequences corresponding to the text files in the directory for prediction 
     """
+    
+    TOKENIZER_PATH = './model/tokenizer.p'
+
     #load pickled tokenizer
-    with open('./model/tokenizer.p', 'rb') as f:
+    with open(TOKENIZER_PATH, 'rb') as f:
         tokenizer = pickle.load(f)
 
     #get filenames in directory
@@ -53,32 +57,36 @@ def prepare(directory='./Snippets'):
         with open(path, 'rb') as f:
             x = f.readlines()
 
+        #decode
         x = [i.decode() for i in x]
+        #replace end-of-line \n character with <br>
         pattern = re.compile(r'$\n')
-        x = [pattern.sub('br', i) for i in x]
+        x = [pattern.sub('<br>', i) for i in x]
+        #join list
         x = ' '.join(x)
+        #replace <br> with empty string
+        x = x.replace('<br>', '')
+        #replace space with empty string
+        x = x.replace(' ', '')
+        #append to list
         snippets.append(x)
 
     #transform code snippets to sequences using tokenizer
     snippets = tokenizer.texts_to_sequences(snippets)
     #add padding to the sequences to equalize lengths
     snippets = sequence.pad_sequences(
-        snippets, 
-        maxlen=1024, 
-        padding='post'
+        sequences=snippets, 
+        maxlen=512, 
+        padding='pre',
+        truncating='post',
         )
 
     return filenames, snippets
 
-def load_model(mode='CPU'):
+def load_model():
 
     """
     Function to load model from architecture json file and weights h5 file
-
-    Parameters
-    ----------
-    mode: str, default='CPU'
-        runtime mode to use in prediction; choice between CPU or GPU
 
     Returns
     -------
@@ -86,18 +94,16 @@ def load_model(mode='CPU'):
         model object constructed from the json architecture file and h5 model weights file
     """
 
-    #load CPU or GPU architecture from json file depending on input
-    if mode=='CPU':
-        architecture_path = './model/model_architecture_CPU.json'
-    else:
-        architecture_path = './model/model_architecture_GPU.json'
+    ARCHITECTURE_PATH = './model/model_architecture.json'
+    WEIGHTS_PATH = './model/model_weights.h5'
 
-    with open(architecture_path, 'rb') as f:
+    #load architecture from json file
+    with open(ARCHITECTURE_PATH, 'rb') as f:
         json_file = f.read()
     
     model = tf.keras.models.model_from_json(json_file)
     #load model weights from h5 file
-    model.load_weights('./model/model_weights.h5')
+    model.load_weights(WEIGHTS_PATH)
 
     return model
 
@@ -124,8 +130,10 @@ def get_predictions(model, filenames, snippets, top_n=3):
         for that file.
     """
 
+    ENCODER_PATH = './model/encoder.p'
+
     #load pickled encoder
-    with open('./model/encoder.p', 'rb') as f:
+    with open(ENCODER_PATH, 'rb') as f:
         encoder = pickle.load(f)
     #initlize list for predictions to output
     output = list()
@@ -151,14 +159,6 @@ def _get_args():
     )
 
     parser.add_argument(
-        "--runtime", 
-        default='CPU', 
-        help='Use CPU or GPU to make predictions', 
-        type=str, 
-        choices=['CPU', 'GPU']
-        )
-
-    parser.add_argument(
         "--top",
         default=3,
         help='The top N predictions to display for each snippet',
@@ -170,12 +170,11 @@ def _get_args():
 if __name__ == "__main__":
 
     args = _get_args()
-    runtime = args.runtime
     top = args.top
     #get filenames and snippets
     filenames, snippets = prepare()
     #load model
-    model = load_model(mode=runtime)
+    model = load_model()
     #get predictions
     predictions = get_predictions(
         model=model, 
