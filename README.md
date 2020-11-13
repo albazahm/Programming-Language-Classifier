@@ -31,7 +31,7 @@ Rosetta Code Web Page: <http://www.rosettacode.org/wiki/Rosetta_Code>
     - Replacing the string sequence '!@$%%^&&^%$#@!' to commas
     - Removing all characters that are: not english, not numeric, not a punctutation mark, and spaces
 3. The language column was preprocessed by:
-    - label-encoding the languages to a numeric representation from 0-17
+    - label-encoding the 30 languages to a numeric representation from 0-29
     - one-hot-encoding the label-encoded language column
 4. Both the text and language columns are converted to arrays
 5. The text column is tokenized on a **character-level** where each character is mapped to a numeric index. Thus each observation is changed from one string to a sequence of numeric indices corresponding to each character in the string. Since punctuations, spaces and words mean different things in each language, it would be difficult to tokenize on a word level. Character-level tokenization/representation was the safest way to preserve the uniquness of each language.
