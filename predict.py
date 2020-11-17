@@ -159,7 +159,7 @@ def get_predictions(model, filenames, snippets, top_n=1):
     output = list()
     #predict using model
     pred = model.decision_function(snippets)
-    print(f'Making top {top_n} predictions for each snippet')
+    print(f'Making top {top_n} predictions for each snippet...')
     for f, p in zip(filenames, pred):
         class_preds = np.argsort(p)[::-1]
         top_n_preds = class_preds[:top_n]
