@@ -28,7 +28,7 @@ Rosetta Code Web Page: <http://www.rosettacode.org/wiki/Rosetta_Code>
 
 1. The data was loaded from the RosettaCodeData.csv file using Pandas library
 2. The text column was preprocessing by:
-    - Replacing the string sequence '!@$%%^&&^%$#@!' to commas
+    - Replacing the string sequence '!@#$%^&&^%$#@!' to commas
     - Removing all characters that are: not english, not numeric, not a punctutation mark, and spaces
 3. The language column was preprocessed by:
     - label-encoding the 30 languages to a numeric representation from 0-29
