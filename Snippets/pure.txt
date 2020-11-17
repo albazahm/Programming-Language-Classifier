@@ -1,12 +1,15 @@
-; survival guide 1_4_100 code order
-; pb4.40b1
-;
-Procedure test1()
-  ; do nothing
-EndProcedure
-;
-Procedure test2()
-  test1()               ; no problem calling test1() as it was defined before test2() called it
-EndProcedure
-;
-test2()
+ Procedure bubbleSort(Array a(1))
+   Protected i, itemCount, hasChanged
+  
+   itemCount = ArraySize(a())
+   Repeat
+     hasChanged = #False
+     itemCount - 1
+     For i = 0 To itemCount
+       If a(i) > a(i + 1)
+         Swap a(i), a(i + 1)
+         hasChanged = #True
+       EndIf 
+     Next  
+   Until hasChanged = #False
+ EndProcedure

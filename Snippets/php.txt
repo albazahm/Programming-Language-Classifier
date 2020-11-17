@@ -1,0 +1,32 @@
+unction StateAbbreviate($state) {
+ 
+    $state = trim($state);
+ 
+        if (((strlen($state) == 2) OR ($state == "D.C.") OR ($state == "d.c."))) {
+            $state = strtoupper($state);
+        } else {
+            $state = ucwords(strtolower($state));
+        }
+ 
+$state_array = array("AL"=>"Alabama","AK"=>"Alaska","AZ"=>"Arizona","AR"=>"Arkansas","CA"=>"California","CT"=>"Connecticut","DE"=>"Delaware","DC"=>"D.C.","FL"=>"Florida","GA"=>"Georgia","HI"=>"Hawaii","ID"=>"Idaho","IL"=>"Illinois","IN"=>"Indiana","IA"=>"Iowa","KS"=>"Kansas","KY"=>"Kentucky","LA"=>"Louisiana","ME"=>"Maine","MD"=>"Maryland","MA"=>"Massachusetts","MI"=>"Michigan","MN"=>"Minnesota","MS"=>"Mississippi","MO"=>"Missouri","MT"=>"Montana","NE"=>"Nebraska","NV"=>"Nevada","NH"=>"New Hampshire","NM"=>"New Mexico","NJ"=>"New Jersey","NY"=>"New York","NC"=>"North Carolina","ND"=>"North Dakota","OH"=>"Ohio","OK"=>"Oklahoma","OR"=>"Oregon","PA"=>"Pennsylvania","RI"=>"Rhode Island","SC"=>"South Carolina","SD"=>"South Dakota","TN"=>"Tennessee","TX"=>"Texas","UT"=>"Utah","VT"=>"Vermont","VA"=>"Virginia","WA"=>"Washington","WV"=>"West Virginia","WI"=>"Wisconsin","WY"=>"Wyoming");
+ 
+if (strlen($state) == 2) {
+    foreach ($state_array as $key => $value) {
+         if ($state == $key) {
+            $state_abbr = $value;
+        }
+    }
+} else {
+    foreach ($state_array as $key => $value) {
+        if ($state == $value) {
+            $state_abbr = $key;
+        }
+    }
+}
+ 
+if (!$state_abbr) {
+    $state_abbr = "Function Could Not Determine The Correct State...";
+}
+    return $state_abbr;
+}
+?>

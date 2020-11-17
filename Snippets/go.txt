@@ -1,0 +1,15 @@
+package main
+
+import (
+	"fmt"
+	"net/url"
+)
+
+func main() {
+
+	text := "1 + 2, example for golangcode.com"
+	fmt.Println("Before:", text)
+
+	output := url.QueryEscape(text)
+	fmt.Println("After:", output)
+}

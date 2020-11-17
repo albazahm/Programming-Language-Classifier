@@ -1,0 +1,9 @@
+  do {
+            
+            // Convert JSON Object received from server side into Swift NSArray.
+            // Note the use "try"
+            if let convertedJsonIntoArray = try JSONSerialization.JSONObjectWithData(data!, options: []) as? NSArray {
+            }
+            
+        } catch let error as NSError {
+            print(error.localizedDescription)

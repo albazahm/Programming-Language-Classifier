@@ -32,13 +32,10 @@ Rosetta Code Web Page: <http://www.rosettacode.org/wiki/Rosetta_Code>
     - Removing all characters that are: not english, not numeric, not a punctutation mark, and spaces
 3. The language column was preprocessed by:
     - label-encoding the 30 languages to a numeric representation from 0-29
-    - one-hot-encoding the label-encoded language column
 4. Both the text and language columns are converted to arrays
-5. The text column is tokenized on a **character-level** where each character is mapped to a numeric index. Thus each observation is changed from one string to a sequence of numeric indices corresponding to each character in the string. Since punctuations, spaces and words mean different things in each language, it would be difficult to tokenize on a word level. Character-level tokenization/representation was the safest way to preserve the uniquness of each language.
-6. The sequences were padded to a uniform length of 1024 since the model requires uniform input sizes.
-7. The model is built using Tensorflow/Keras. It is a multi-layer convolutional neural network starting with an input layer followed by an embedding layer. The embedding layer's output is fed to 3 different ReLU-activated convolutional layers with 64 filters, but with a different filter sizes (4, 8, 16). The outputs of each of the three layers are concatenated before applying GlobalMaxPooling. Finally a softmax activated dense layer takes the output from the pooling to make a prediction. The structure is summarized below:
-
-![Model Structure](./ModelStructure.PNG)
+5. The text column is tokenized on a mixed-level (word and character levels) where each word and each punctuation mark is a token. Thus each observation is changed from one string to a sequence of numeric indices corresponding to words and punctuations in the string. Mixed-level tokenization/representation was the safest way to preserve the uniquness of each language since the words and punctuations are often the distinguishing factors between languages. This is also useful since this preprocessing step can apply to any language. As such, this model can be expanded easily to include more languages.
+6. The tokenized text is embedded to a vector representation based on the Term-Frequency-Inverse-Document-Frequency (TF-IDF) of each token in the text.
+7. The model is built using Scikit-Learn. It is a Support-Vector-Machine (SVM) Classifier with a linear kernel. The SVM was chosen since this problem deals with a high feature space (>70,000 unique tokens in the dataset) and linear SVM's are known to excel in this application which is often the case with NLP applications.
 
 ---
 
@@ -51,11 +48,11 @@ To make a prediction using the model:
 
         pip install -r requirements.txt
 
-3. Place the code snippets in the [Snippets](./Snippets) folder as .txt files. There are 4 .txt files there as examples.
+3. Place the code snippets in the [Snippets](./Snippets) folder as .txt files. There are .txt files there as examples.
 4. From the command line run predict.py as follows:
 
         python predict.py --top 3
 
     *the top argument is the top N predictions to display when making a prediction*
 
-5. Command line should print the filename and the top_n predictions for each file with their correspoding percentage for each prediction.
+5. Command line should print the filename and the top_n predictions for each file with their correspoding percentage for each prediction. The last line summarizes the time taken to make the predictions.
