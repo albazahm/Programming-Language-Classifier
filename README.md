@@ -32,10 +32,10 @@ Rosetta Code Web Page: <http://www.rosettacode.org/wiki/Rosetta_Code>
     - Removing all characters that are: not english, not numeric, not a punctutation mark, and spaces
 3. The language column was preprocessed by:
     - label-encoding the 30 languages to a numeric representation from 0-29
-4. Both the text and language columns are converted to arrays
-5. The text column is tokenized on a mixed-level (word and character levels) where each word and each punctuation mark is a token. Thus each observation is changed from one string to a sequence of numeric indices corresponding to words and punctuations in the string. Mixed-level tokenization/representation was the safest way to preserve the uniquness of each language since the words and punctuations are often the distinguishing factors between languages. This is also useful since this preprocessing step can apply to any language. As such, this model can be expanded easily to include more languages.
-6. The tokenized text is embedded to a vector representation based on the Term-Frequency-Inverse-Document-Frequency (TF-IDF) of each token in the text.
-7. The model is built using Scikit-Learn. It is a Support-Vector-Machine (SVM) Classifier with a linear kernel. The SVM was chosen since this problem deals with a high feature space (>70,000 unique tokens in the dataset) and linear SVM's are known to excel in this application which is often the case with NLP applications.
+4. Both the text and language columns were converted to arrays
+5. The text column was tokenized on a mixed-level (word and character levels) where each word and each punctuation mark is a token. Thus each observation is changed from one string to a sequence of numeric indices corresponding to words and punctuations in the string. Mixed-level tokenization/representation was the safest way to preserve the uniquness of each language since the words and punctuations are often the distinguishing factors between languages. This is also useful since this preprocessing step can apply to any language. As such, this model can be expanded easily to include more languages.
+6. The tokenized text was embedded to a vector representation based on the Term-Frequency-Inverse-Document-Frequency (TF-IDF) of each token in the text.
+7. The model was built using Scikit-Learn. It is a Support-Vector-Machine (SVM) Classifier with a linear kernel. The SVM was chosen since this problem deals with a high feature space (>70,000 unique tokens in the dataset) and linear SVM's are known to excel in this application which is often the case with NLP applications.
 
 ---
 
